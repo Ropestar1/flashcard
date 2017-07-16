@@ -1,5 +1,33 @@
+var inquirer = require("inquirer");
+
 var ClozeCard = require('./ClozeCard.js');
 var BasicCard = require ('./BasicCard.js');
+
+var strAnswerQuestions = 'Answer questions.';
+var strCreateBasic = 'Create a basic flashcard.';
+var strCreateCloze = 'Create a cloze flashcard.';
+
+inquirer.prompt([
+    // Here we create a basic text prompt.
+    { 
+		type: 'list',
+		message: 'What would you like to do?',
+		choices: [strAnswerQuestions, strCreateBasic, strCreateCloze],
+		name: 'action'
+    },
+]).then(function(inquirerResponse) {
+    if (inquirerResponse.action === strAnswerQuestions) {
+		console.log('Let\'s answer some questions.')
+    }
+    else if (inquirerResponse.action === strCreateBasic) {
+		console.log('Let\'s make a basic flashcard.')
+    }
+
+    else if (inquirerResponse.action === strCreateCloze) {
+		console.log('Let\'s make a cloze flashcard.')
+    }
+});
+
 
 
 // // TESTS
