@@ -1,6 +1,6 @@
-var BasicCard = function (titleBasic, front, back) {
+var BasicCard = function (front, back) {
 	if (this instanceof BasicCard) {
-    	this.titleBasic = titleBasic;
+    	// this.titleBasic = titleBasic;
     	this.front = front;
     	this.back = back
 	}

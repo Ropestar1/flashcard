@@ -33,34 +33,42 @@ function creatingBasic() {
 	    }
 	]).then(function(titleResponse) {
 		//need to check if title exists, if not proceed normally, if it does, ask to rename
-		console.log('Adding information.')
+		console.log('Adding information.');
+		basicInfo();
+		//add prototype for the basic card title
 
-		inquirer.prompt([
-	    	{
-				type: 'input',
-	      		message: 'What question do you want to put for the front of the card?',
-	     		name: 'basicFront'
-		    },
-	    	{
-				type: 'input',
-	      		message: 'What anser do you want to put for the back of the card?',
-	     		name: 'basicBack'
-		    }
-		]).then(function(cardInfoResponse) {
-			//need to check if title exists, if not proceed normally, if it does, ask to rename
-			console.log('new front', cardInfoResponse.basicFront);
-			console.log('new back', cardInfoResponse.basicBack);
-
-			var newBasicCard = BasicCard(titleResponse.titleForBasic, cardInfoResponse.basicFront,
-				cardInfoResponse.basicBack);
-			console.log(newBasicCard);
-		});
+		
 	});
 }
 
+function basicInfo() {
+	inquirer.prompt([
+    	{
+			type: 'input',
+      		message: 'What question do you want to put for the front of the card?',
+     		name: 'basicFront'
+	    },
+    	{
+			type: 'input',
+      		message: 'What anser do you want to put for the back of the card?',
+     		name: 'basicBack'
+	    }
+	]).then(function(basicInfoResponse) {
+		var frontText = basicInfoResponse.basicFront;
+		var backText = basicInfoResponse.basicBack;
+
+		console.log('new front', frontText);
+		console.log('new back', backText);
+
+		var newBasicCard = BasicCard(frontText, backText);
+		console.log(newBasicCard);
+	});
+}
+
+
+
 function creatingCloze() {
 	inquirer.prompt([
-	    // Here we create a basic text prompt.
 	    {
 			type: 'input',
       		message: 'What title do you want for this cloze flashcard?',
@@ -69,8 +77,16 @@ function creatingCloze() {
 	]).then(function(titleResponse) {
 		//need to check if title exists, if not proceed normally, if it does, ask to rename
 		console.log('Adding information.')
+		clozeInfo();
+		//prototype the title for this object
 
-		inquirer.prompt([
+	});
+}
+
+
+//adds the information to the clozeCard
+function clozeInfo() {
+	inquirer.prompt([
 	    	{
 				type: 'input',
 	      		message: 'Please enter your statement.',
@@ -91,16 +107,15 @@ function creatingCloze() {
 			console.log('cloze portion', clozeText);
 
 			if (fullText.includes(clozeText)) {
-				var newClozeCard = ClozeCard (titleResponse.titleForCloze, clozeInfoResponse.clozeFullText,
-				clozeInfoResponse.clozeInput);
+				var newClozeCard = ClozeCard (fullText, clozeText);
 				console.log(newClozeCard);
 			}
 
 			else {
-				console.log('Your cloze doesn\'t exist in the full text. Please fix')
+				console.log('Your cloze doesn\'t exist in the full text. Please fix.')
+				clozeInfo();
 			}
 		});
-	});
 }
 
 
