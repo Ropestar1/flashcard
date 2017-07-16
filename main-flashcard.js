@@ -83,14 +83,22 @@ function creatingCloze() {
 		    }
 		]).then(function(clozeInfoResponse) {
 			//need to check if title exists, if not proceed normally, if it does, ask to rename
+			var fullText = clozeInfoResponse.clozeFullText;
+			var clozeText = clozeInfoResponse.clozeInput;
 
 			//check if the cloze exists in the full-text, put an error if it doesn't
-			console.log('fullText', clozeInfoResponse.clozeFullText);
-			console.log('cloze portion', clozeInfoResponse.clozeInput);
+			console.log('fullText', fullText);
+			console.log('cloze portion', clozeText);
 
-			var newClozeCard = ClozeCard (titleResponse.titleForCloze, clozeInfoResponse.clozeFullText,
+			if (fullText.includes(clozeText)) {
+				var newClozeCard = ClozeCard (titleResponse.titleForCloze, clozeInfoResponse.clozeFullText,
 				clozeInfoResponse.clozeInput);
-			console.log(newClozeCard);
+				console.log(newClozeCard);
+			}
+
+			else {
+				console.log('Your cloze doesn\'t exist in the full text. Please fix')
+			}
 		});
 	});
 }
