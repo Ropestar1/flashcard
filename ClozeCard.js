@@ -1,5 +1,6 @@
-var ClozeCard = function(fullText, cloze) {
+var ClozeCard = function(titleCloze, fullText, cloze) {
   	if (this instanceof ClozeCard) {
+    	this.titleCloze = titleCloze;
     	this.cloze = cloze;
     	this.fullText = fullText;
     	// can I put a conditional within a constructor????
