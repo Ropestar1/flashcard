@@ -28,7 +28,7 @@ function creatingBasic() {
 	    // Here we create a basic text prompt.
 	    {
 			type: 'input',
-      		message: 'What title do you want for this card?',
+      		message: 'What title do you want for this basic flashcard?',
      		name: 'titleForBasic'
 	    }
 	]).then(function(titleResponse) {
@@ -58,7 +58,42 @@ function creatingBasic() {
 	});
 }
 
+function creatingCloze() {
+	inquirer.prompt([
+	    // Here we create a basic text prompt.
+	    {
+			type: 'input',
+      		message: 'What title do you want for this cloze flashcard?',
+     		name: 'titleForCloze'
+	    }
+	]).then(function(titleResponse) {
+		//need to check if title exists, if not proceed normally, if it does, ask to rename
+		console.log('Adding information.')
 
+		inquirer.prompt([
+	    	{
+				type: 'input',
+	      		message: 'Please enter your statement.',
+	     		name: 'clozeFullText'
+		    },
+	    	{
+				type: 'input',
+	      		message: 'What portion of the text do you want clozed?',
+	     		name: 'clozeInput'
+		    }
+		]).then(function(clozeInfoResponse) {
+			//need to check if title exists, if not proceed normally, if it does, ask to rename
+
+			//check if the cloze exists in the full-text, put an error if it doesn't
+			console.log('fullText', clozeInfoResponse.clozeFullText);
+			console.log('cloze portion', clozeInfoResponse.clozeInput);
+
+			var newClozeCard = ClozeCard (titleResponse.titleForCloze, clozeInfoResponse.clozeFullText,
+				clozeInfoResponse.clozeInput);
+			console.log(newClozeCard);
+		});
+	});
+}
 
 
 //CORE PROGRAM STARTING
@@ -81,6 +116,7 @@ inquirer.prompt([
 
     else if (inquirerResponse.action === strCreateCloze) {
 		console.log('Let\'s make a cloze flashcard.')
+		creatingCloze();
     }
 });
 
