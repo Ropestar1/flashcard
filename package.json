@@ -4,7 +4,8 @@
   "description": "Use this package.json to install required dependencies for this hw assignment",
   "main": "main-flashcard.js",
   "dependencies": {
-    "inquirer": "^3.2.0"
+    "inquirer": "^3.2.0",
+    "request": "^2.81.0"
   },
   "devDependencies": {},
   "scripts": {

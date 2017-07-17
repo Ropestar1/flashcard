@@ -1,5 +1,8 @@
 var fs = require('fs');
+// need to add reads and writes to a .json file, but how?
+
 var inquirer = require('inquirer');
+var request = require('request');
 
 var ClozeCard = require('./ClozeCard.js');
 var BasicCard = require ('./BasicCard.js');
@@ -32,12 +35,16 @@ function creatingBasic() {
      		name: 'titleForBasic'
 	    }
 	]).then(function(titleResponse) {
-		//need to check if title exists, if not proceed normally, if it does, ask to rename
+		//need to check if title exists in JSON file, if not proceed normally, if it does, ask to rename
 		console.log('Adding information.');
-		basicInfo();
-		//add prototype for the basic card title
 
-		
+		basicInfo()
+		// .then(function() {
+		// 	console.log('New basic card ', newBasicCard);		
+		// 	newBasicCard.prototype.basicTitle = titleResponse.titleForBasic;
+	
+		// })
+		//add prototype for the basic card title
 	});
 }
 
@@ -62,6 +69,8 @@ function basicInfo() {
 
 		var newBasicCard = BasicCard(frontText, backText);
 		console.log(newBasicCard);
+		//  console.log(newBasicCard.hello) --> undefined
+		// return newBasicCard
 	});
 }
 
@@ -76,7 +85,7 @@ function creatingCloze() {
 	    }
 	]).then(function(titleResponse) {
 		//need to check if title exists, if not proceed normally, if it does, ask to rename
-		console.log('Adding information.')
+		console.log('Adding information.');
 		clozeInfo();
 		//prototype the title for this object
 
@@ -87,35 +96,34 @@ function creatingCloze() {
 //adds the information to the clozeCard
 function clozeInfo() {
 	inquirer.prompt([
-	    	{
-				type: 'input',
-	      		message: 'Please enter your statement.',
-	     		name: 'clozeFullText'
-		    },
-	    	{
-				type: 'input',
-	      		message: 'What portion of the text do you want clozed?',
-	     		name: 'clozeInput'
-		    }
-		]).then(function(clozeInfoResponse) {
-			//need to check if title exists, if not proceed normally, if it does, ask to rename
-			var fullText = clozeInfoResponse.clozeFullText;
-			var clozeText = clozeInfoResponse.clozeInput;
+    	{
+			type: 'input',
+      		message: 'Please enter your statement.',
+     		name: 'clozeFullText'
+	    },
+    	{
+			type: 'input',
+      		message: 'What portion of the text do you want clozed?',
+     		name: 'clozeInput'
+	    }
+	]).then(function(clozeInfoResponse) {
+		//need to check if title exists, if not proceed normally, if it does, ask to rename
+		var fullText = clozeInfoResponse.clozeFullText;
+		var clozeText = clozeInfoResponse.clozeInput;
 
-			//check if the cloze exists in the full-text, put an error if it doesn't
-			console.log('fullText', fullText);
-			console.log('cloze portion', clozeText);
+		//check if the cloze exists in the full-text, put an error if it doesn't
+		console.log('fullText', fullText);
+		console.log('cloze portion', clozeText);
 
-			if (fullText.includes(clozeText)) {
-				var newClozeCard = ClozeCard (fullText, clozeText);
-				console.log(newClozeCard);
-			}
-
-			else {
-				console.log('Your cloze doesn\'t exist in the full text. Please fix.')
-				clozeInfo();
-			}
-		});
+		if (fullText.includes(clozeText)) {
+			var newClozeCard = ClozeCard (fullText, clozeText);
+			console.log(newClozeCard);
+		}
+		else {
+			console.log('Your cloze doesn\'t exist in the full text. Please fix.')
+			clozeInfo();
+		}
+	});
 }
 
 
