@@ -1,5 +1,4 @@
 var fs = require('fs');
-// need to add reads and writes to a .json file, but how?
 
 var inquirer = require('inquirer');
 var request = require('request');
@@ -22,12 +21,9 @@ var clozeLibrary;
 function answerBasicCards() {
 	fs.readFile('./basic-cards.json', (err, data) => {
 		if (err) throw err;
-		// console.log(JSON.parse(data));
 		var parsedData = JSON.parse(data);
 		var keyArray = Object.keys(parsedData);
 		
-		// console.log(keyArray)
-		// console.log(keyArray[])
 		if (count < keyArray.length) {
 			inquirer.prompt([
 		    	{
@@ -36,8 +32,6 @@ function answerBasicCards() {
 		     		name: 'userAnswer'
 			    }
 			]).then(function(basicInfoResponse) {
-				// console.log(count);
-				// console.log('array length', keyArray.length);
 				if (basicInfoResponse.userAnswer === parsedData[keyArray[count]].back) {
 					correct++;
 					count++;
@@ -51,7 +45,6 @@ function answerBasicCards() {
 				}
 			});
 		}
-		//loop through questions and get input from inquirer
 	});
 }
 
@@ -110,65 +103,30 @@ function creatingBasic() {
 		var cardTitle = basicInfoResponse.basicTitle;
 		var frontText = basicInfoResponse.basicFront;
 		var backText = basicInfoResponse.basicBack;
-
-		
-		console.log('new front', frontText);
-		console.log('new back', backText);
-
-		//could this be occurring before the read happens
-		// var newBasicCard = BasicCard(frontText, backText);
-		// console.log(newBasicCard);
 		
 		fs.readFile('./basic-cards.json', (err, data) => {
 			if (err) throw err;
-			console.log('Before redefined', basicLibrary);
+			// console.log('Before redefined', basicLibrary);
 			basicLibrary = JSON.parse(data);
-			console.log('After redefined', basicLibrary);
+			// console.log('After redefined', basicLibrary);
 			basicLibrary[cardTitle] = BasicCard(frontText, backText);
-			console.log('After adding card', basicLibrary);
-			// console.log('Adding a new basic card.');
+			// console.log('After adding card', basicLibrary);
 
-			// ADD THE NEW OBJECT TO THE DATA RESULT AND WRITE NEW FILE TO SYSTEM (STRINGIFY?)
-			
-			// CHECK SYNTAX FOR WRITEFILE; use updated basicLibrary as content to be written into file.
-			// ADD THE NEW OBJECT TO THE DATA RESULT AND WRITE NEW FILE TO SYSTEM (STRINGIFY?)
 			fs.writeFile('./basic-cards.json', JSON.stringify(basicLibrary, null, 2), (err, data) => {
 				console.log('Card added to basic card library.')
 			});		
 		});
 	});
-
-	// inquirer.prompt([
-	//     // Here we create a basic text prompt.
-	//     {
-	// 		type: 'input',
- //      		message: 'What title do you want for this basic flashcard?',
- //     		name: 'titleForBasic'
-	//     }
-	// ]).then(function(titleResponse) {
-	// 	//need to check if title exists in JSON file, if not proceed normally, if it does, ask to rename
-	// 	fs.readFile('./basic-cards.json', (err, data) => {
-	// 		if (err) throw err;
-	// 		// console.log('Data result: ', JSON.parse(data));
-	// 		// console.log('Data index 0: ', JSON.parse(data)['First President'])
-	// 		// console.log('Object keys', Object.keys(JSON.parse(data)))
-	// 		// console.log(JSON.parse(Object.keys(data["First President"])))
-
-	// 	});
-		
-	// 	// basicInfo()
-	// 	// .then(function() {
-	// 	// 	console.log('New basic card ', newBasicCard);		
-	// 	// 	newBasicCard.prototype.basicTitle = titleResponse.titleForBasic;
-	
-	// 	// })
-	// 	//add prototype for the basic card title
-	// });
 }
 
 //adds the information to the clozeCard
 function creatingCloze() {
 	inquirer.prompt([
+    	{
+			type: 'input',
+      		message: 'What title do you want for this card?',
+     		name: 'clozeTitle'
+	    },
     	{
 			type: 'input',
       		message: 'Please enter your statement.',
@@ -181,14 +139,29 @@ function creatingCloze() {
 	    }
 	]).then(function(clozeInfoResponse) {
 		//need to check if title exists, if not proceed normally, if it does, ask to rename
+		var cardTitle = clozeInfoResponse.clozeTitle;
 		var fullText = clozeInfoResponse.clozeFullText;
 		var clozeText = clozeInfoResponse.clozeInput;
+		var partialText = fullText.replace(clozeText, "...");
+		console.log('partial test', partialText);
 
 		//check if the cloze exists in the full-text, put an error if it doesn't
-		console.log('fullText', fullText);
-		console.log('cloze portion', clozeText);
-
+		// console.log('fullText', fullText);
+		// console.log('cloze portion', clozeText);
 		if (fullText.includes(clozeText)) {
+			fs.readFile('./cloze-cards.json', (err, data) => {
+				if (err) throw err;
+				console.log('Before redefined', clozeLibrary);
+				clozeLibrary = JSON.parse(data);
+				console.log('After redefined', clozeLibrary);
+				clozeLibrary[cardTitle] = ClozeCard(fullText, clozeText);
+
+				console.log('After adding card', clozeLibrary);
+
+				// fs.writeFile('./cloze-cards.json', JSON.stringify(clozeLibrary, null, 2), (err, data) => {
+				// 	console.log('Card added to basic card library.')
+			});
+			
 			var newClozeCard = ClozeCard (fullText, clozeText);
 			console.log(newClozeCard)
 		}
