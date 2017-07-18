@@ -11,9 +11,12 @@ var strAnswerBasic = 'Answer basic card questions.';
 var strAnswerCloze = 'Answer cloze card questions.';
 var strCreateBasic = 'Create a basic flashcard.';
 var strCreateCloze = 'Create a cloze flashcard.';
+// var strExitProgram = 'Exit the program'; //If time allows
 
 var count = 0;
 var correct = 0;
+var basicLibrary;
+var clozeLibrary; 
 
 //defined functions to be called during UX
 function answerBasicCards() {
@@ -23,7 +26,7 @@ function answerBasicCards() {
 		var parsedData = JSON.parse(data);
 		var keyArray = Object.keys(parsedData);
 		
-		console.log(keyArray)
+		// console.log(keyArray)
 		// console.log(keyArray[])
 		if (count < keyArray.length) {
 			inquirer.prompt([
@@ -33,8 +36,8 @@ function answerBasicCards() {
 		     		name: 'userAnswer'
 			    }
 			]).then(function(basicInfoResponse) {
-				console.log(count);
-				console.log('array length', keyArray.length);
+				// console.log(count);
+				// console.log('array length', keyArray.length);
 				if (basicInfoResponse.userAnswer === parsedData[keyArray[count]].back) {
 					correct++;
 					count++;
@@ -58,7 +61,7 @@ function answerClozeCards() {
 		var parsedData = JSON.parse(data);
 		var keyArray = Object.keys(parsedData);
 		
-		console.log(keyArray)
+		// console.log(keyArray)
 		// console.log(keyArray[])
 		if (count < keyArray.length) {
 			inquirer.prompt([
@@ -68,8 +71,8 @@ function answerClozeCards() {
 		     		name: 'userAnswer'
 			    }
 			]).then(function(clozeInfoResponse) {
-				console.log(count);
-				console.log('array length', keyArray.length);
+				// console.log(count);
+				// console.log('array length', keyArray.length);
 				if (clozeInfoResponse.userAnswer === parsedData[keyArray[count]].cloze) {
 					correct++;
 					count++;
@@ -90,6 +93,11 @@ function creatingBasic() {
 	inquirer.prompt([
     	{
 			type: 'input',
+      		message: 'What title do you want for this card?',
+     		name: 'basicTitle'
+	    },
+    	{
+			type: 'input',
       		message: 'What question do you want to put for the front of the card?',
      		name: 'basicFront'
 	    },
@@ -99,19 +107,34 @@ function creatingBasic() {
      		name: 'basicBack'
 	    }
 	]).then(function(basicInfoResponse) {
+		var cardTitle = basicInfoResponse.basicTitle;
 		var frontText = basicInfoResponse.basicFront;
 		var backText = basicInfoResponse.basicBack;
 
-		console.log('Adding a new basic card.');
+		
 		console.log('new front', frontText);
 		console.log('new back', backText);
 
-		var newBasicCard = BasicCard(frontText, backText);
-		console.log(newBasicCard)
+		//could this be occurring before the read happens
+		// var newBasicCard = BasicCard(frontText, backText);
+		// console.log(newBasicCard);
 		
-		fs.readFile('/etc/passwd', (err, data) => {
+		fs.readFile('./basic-cards.json', (err, data) => {
 			if (err) throw err;
-			console.log(JSON.parse(data));
+			console.log('Before redefined', basicLibrary);
+			basicLibrary = JSON.parse(data);
+			console.log('After redefined', basicLibrary);
+			basicLibrary[cardTitle] = BasicCard(frontText, backText);
+			console.log('After adding card', basicLibrary);
+			// console.log('Adding a new basic card.');
+
+			// ADD THE NEW OBJECT TO THE DATA RESULT AND WRITE NEW FILE TO SYSTEM (STRINGIFY?)
+			
+			// CHECK SYNTAX FOR WRITEFILE; use updated basicLibrary as content to be written into file.
+			// ADD THE NEW OBJECT TO THE DATA RESULT AND WRITE NEW FILE TO SYSTEM (STRINGIFY?)
+			fs.writeFile('./basic-cards.json', JSON.stringify(basicLibrary), (err, data) => {
+				console.log('Added to library.')
+			});		
 		});
 	});
 
@@ -194,14 +217,19 @@ function startUp() {
 			answerClozeCards()
 	    }
 	    else if (inquirerResponse.action === strCreateBasic) {
-			console.log('Let\'s make a basic flashcard.')
-			creatingBasic();
+			console.log('Let\'s make a basic flashcard.');
+			creatingBasic()
 	    }
 
 	    else if (inquirerResponse.action === strCreateCloze) {
-			console.log('Let\'s make a cloze flashcard.')
-			creatingCloze();
+			console.log('Let\'s make a cloze flashcard.');
+			creatingCloze()
 	    }
+
+	    // else if (inquirerResponse.action === strExitProgram) {
+	    // 	console.log('stop program')
+	    // 	//find way to actualy stop the program...exit process?
+	    // }
 	});
 }
 //CORE PROGRAM STARTING
