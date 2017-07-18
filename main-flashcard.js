@@ -132,8 +132,8 @@ function creatingBasic() {
 			
 			// CHECK SYNTAX FOR WRITEFILE; use updated basicLibrary as content to be written into file.
 			// ADD THE NEW OBJECT TO THE DATA RESULT AND WRITE NEW FILE TO SYSTEM (STRINGIFY?)
-			fs.writeFile('./basic-cards.json', JSON.stringify(basicLibrary), (err, data) => {
-				console.log('Added to library.')
+			fs.writeFile('./basic-cards.json', JSON.stringify(basicLibrary, null, 2), (err, data) => {
+				console.log('Card added to basic card library.')
 			});		
 		});
 	});

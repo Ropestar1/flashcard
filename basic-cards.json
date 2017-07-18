@@ -1,1 +1,14 @@
-{"first_president":{"front":"Who is the first president of the United States of America?","back":"George Washington"},"stars":{"front":"How many stars are in the American flag?","back":"50"},"stripes":{"front":"How many stripes are in the American flag?","back":"13"}}
+{
+  "first_president": {
+    "front": "Who is the first president of the United States of America?",
+    "back": "George Washington"
+  },
+  "stars": {
+    "front": "How many stars are in the American flag?",
+    "back": "50"
+  },
+  "stripes": {
+    "front": "How many stripes are in the American flag?",
+    "back": "13"
+  }
+}
