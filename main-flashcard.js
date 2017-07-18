@@ -7,24 +7,12 @@ var request = require('request');
 var ClozeCard = require('./ClozeCard.js');
 var BasicCard = require ('./BasicCard.js');
 
-var strAnswerQuestions = 'Answer questions.';
+var strAnswerBasic = 'Answer basic card questions.';
+var strAnswerCloze = 'Answer cloze card questions.';
 var strCreateBasic = 'Create a basic flashcard.';
 var strCreateCloze = 'Create a cloze flashcard.';
 
 //defined functions to be called during UX
-function answeringQuestions() {
-	inquirer.prompt([
-	    // Here we create a basic text prompt.
-	    {
-			type: 'list',
-			message: 'What would you like to do?',
-			choices: [strAnswerQuestions, strCreateBasic, strCreateCloze],
-			name: 'action'
-	    }
-	]).then(function(inquirerResponse) {
-		console.log('Need to add reading capabilities here.')
-	});
-}
 
 function creatingBasic() {
 	inquirer.prompt([
@@ -35,10 +23,29 @@ function creatingBasic() {
      		name: 'titleForBasic'
 	    }
 	]).then(function(titleResponse) {
-		//need to check if title exists in JSON file, if not proceed normally, if it does, ask to rename
-		console.log('Adding information.');
+		
 
-		basicInfo()
+
+		//need to check if title exists in JSON file, if not proceed normally, if it does, ask to rename
+		fs.readFile('./basic-cards.json', (err, data) => {
+			if (err) throw err;
+			// console.log('Data result: ', JSON.parse(data));
+			// console.log('Data index 0: ', JSON.parse(data)['First President'])
+			// console.log('Object keys', Object.keys(JSON.parse(data)))
+			// console.log(JSON.parse(Object.keys(data["First President"])))
+			var titlesList = Object.keys(JSON.parse(data));
+
+			if (titlesList.indexOf(titleResponse.titleForBasic) === -1) {
+				basicInfo()
+			}
+			else {
+				console.log('The title you used already exists. Please use a different title.');
+				creatingBasic()
+			}
+
+		});
+		
+		// basicInfo()
 		// .then(function() {
 		// 	console.log('New basic card ', newBasicCard);		
 		// 	newBasicCard.prototype.basicTitle = titleResponse.titleForBasic;
@@ -57,19 +64,20 @@ function basicInfo() {
 	    },
     	{
 			type: 'input',
-      		message: 'What anser do you want to put for the back of the card?',
+      		message: 'What answer do you want to put for the back of the card?',
      		name: 'basicBack'
 	    }
 	]).then(function(basicInfoResponse) {
 		var frontText = basicInfoResponse.basicFront;
 		var backText = basicInfoResponse.basicBack;
 
+		console.log('Adding a new basic card.');
 		console.log('new front', frontText);
 		console.log('new back', backText);
 
 		var newBasicCard = BasicCard(frontText, backText);
-		console.log(newBasicCard);
-		//  console.log(newBasicCard.hello) --> undefined
+		console.log(newBasicCard)
+		// console.log(newBasicCard.hello) --> undefined
 		// return newBasicCard
 	});
 }
@@ -91,7 +99,6 @@ function creatingCloze() {
 
 	});
 }
-
 
 //adds the information to the clozeCard
 function clozeInfo() {
@@ -117,15 +124,22 @@ function clozeInfo() {
 
 		if (fullText.includes(clozeText)) {
 			var newClozeCard = ClozeCard (fullText, clozeText);
-			console.log(newClozeCard);
+			console.log(newClozeCard)
 		}
 		else {
 			console.log('Your cloze doesn\'t exist in the full text. Please fix.')
-			clozeInfo();
+			clozeInfo()
 		}
 	});
 }
 
+function answerBasicCards() {
+	console.log('Need to add reading capabilities here.')
+}
+
+function answerClozeCards() {
+	console.log('Need to add reading capabilities here.')
+}
 
 //CORE PROGRAM STARTING
 inquirer.prompt([
@@ -133,12 +147,17 @@ inquirer.prompt([
     { 
 		type: 'list',
 		message: 'What would you like to do?',
-		choices: [strAnswerQuestions, strCreateBasic, strCreateCloze],
+		choices: [strAnswerBasic, strAnswerCloze, strCreateBasic, strCreateCloze],
 		name: 'action'
     }
 ]).then(function(inquirerResponse) {
-    if (inquirerResponse.action === strAnswerQuestions) {
-		console.log('Let\'s answer some questions.')
+    if (inquirerResponse.action === strAnswerBasic) {
+		console.log('Let\'s answer some basic card questions.')
+		//add function for answering basic cards
+    }
+    else if (inquirerResponse.action === strCreateCloze) {
+		console.log('Let\'s answer some cloze card questions.')
+		//add function for answering cloze cards
     }
     else if (inquirerResponse.action === strCreateBasic) {
 		console.log('Let\'s make a basic flashcard.')

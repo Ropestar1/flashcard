@@ -1,3 +1,16 @@
 {
-	
+	"First President": {
+		"front": "Who is the first president of the United States of America?",
+		"back": "George Washington"
+	},
+
+	"Stars": {
+		"front": "How many stars are in the American flag?",
+		"back": "50"
+	},
+
+	"Stripes": {
+		"front": "How many stripes are in the American flag?",
+		"back": "13"
+	}
 }
