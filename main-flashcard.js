@@ -15,7 +15,7 @@ var strExitProgram = 'Exit the program';
 var count = 0;
 var correct = 0;
 var basicLibrary;
-var clozeLibrary; 
+var clozeLibrary;
 
 //defined functions to be called during UX
 function answerBasicCards() {
@@ -138,7 +138,6 @@ function creatingCloze() {
      		name: 'clozeInput'
 	    }
 	]).then(function(clozeInfoResponse) {
-		//need to check if title exists, if not proceed normally, if it does, ask to rename
 		var cardTitle = clozeInfoResponse.clozeTitle;
 		var fullText = clozeInfoResponse.clozeFullText;
 		var clozeText = clozeInfoResponse.clozeInput;
@@ -146,8 +145,6 @@ function creatingCloze() {
 		console.log('partial test', partialText);
 
 		//check if the cloze exists in the full-text, put an error if it doesn't
-		// console.log('fullText', fullText);
-		// console.log('cloze portion', clozeText);
 		if (fullText.includes(clozeText)) {
 			fs.readFile('./cloze-cards.json', (err, data) => {
 				if (err) throw err;
@@ -191,12 +188,10 @@ function startUp() {
 			console.log('Let\'s make a basic flashcard.');
 			creatingBasic()
 	    }
-
 	    else if (inquirerResponse.action === strCreateCloze) {
 			console.log('Let\'s make a cloze flashcard.');
 			creatingCloze()
 	    }
-
 	    else if (inquirerResponse.action === strExitProgram) {
 	    	console.log('stop program');
 	    	process.exit()
