@@ -1,14 +1,18 @@
 {
-  "first_president": {
-    "front": "Who is the first president of the United States of America?",
-    "back": "George Washington"
+  "california": {
+    "front": "What state is the Golden State?",
+    "back": "California"
   },
-  "stars": {
-    "front": "How many stars are in the American flag?",
-    "back": "50"
+  "new_jersey": {
+    "front": "What state is known as the Garden State?",
+    "back": "New Jersey"
   },
-  "stripes": {
-    "front": "How many stripes are in the American flag?",
-    "back": "13"
+  "new_york": {
+    "front": "What state is known as the Big Apple?",
+    "back": "New York"
+  },
+  "illinois": {
+    "front": "What state is the 'Windy City' located in?",
+    "back": "Illinois"
   }
 }

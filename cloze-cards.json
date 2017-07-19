@@ -1,17 +1,23 @@
 {
-  "first_president": {
-    "fullText": "George Washington is the first president of the United States of America.",
-    "cloze": "George Washington",
-    "partial": "... is the first president of the United States of America."
+  "california": {
+    "fullText": "California is the Golden State.",
+    "cloze": "California",
+    "partial": "... is the Golden State."
   },
-  "stars": {
-    "fullText": "There are 50 stars in the American flag.",
-    "cloze": "50",
-    "partial": "There are ... stars in the American flag"
+  "new_jersey": {
+    "fullText": "New Jersey is the Garden State.",
+    "cloze": "New Jersey",
+    "partial": "... is the Garden State."
+
   },
-  "stripes": {
-    "fullText": "There are 13 stripes in the American flag",
-    "cloze": "13",
-    "partial": "There are ... stripes in the American flag"
+  "new_york": {
+    "fullText": "New York is the Big Appple.",
+    "cloze": "New York",
+    "partial": "... is the Big Apple."
+  },
+  "illinois": {
+    "fullText": "The 'Windy City' is located in Illinois.",
+    "cloze": "Illinois",
+    "partial": "The 'Windy City' is located in ...."
   }
 }

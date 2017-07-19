@@ -32,19 +32,45 @@ function answerBasicCards() {
 		     		name: 'userAnswer'
 			    }
 			]).then(function(basicInfoResponse) {
-				if (basicInfoResponse.userAnswer === parsedData[keyArray[count]].back) {
+				var promptAnswer = basicInfoResponse.userAnswer;
+				var keyedAnswer = parsedData[keyArray[count]].back
+
+				if (promptAnswer.toLowerCase() === keyedAnswer.toLowerCase()) {
 					correct++;
 					count++;
 					console.log('Correct! You have ' + correct + ' answers correct.');
-					answerBasicCards()
+					if (count === keyArray.length) {
+						startUp()
+					}
+					else answerMoreBasic()
 				}
 				else {
 					count++;
-					console.log('Wrong! You have ' + correct + ' answers correct.');
-					answerBasicCards()
+					console.log('Wrong! You have ' + correct + ' answers correct.' +
+						'\n' + keyedAnswer + ' is the correct answer.');
+					if (count === keyArray.length) {
+						startUp()
+					}
+					else answerMoreBasic()
 				}
 			});
 		}
+	});
+}
+
+function answerMoreBasic() {
+	inquirer.prompt([
+	    { 
+			type: 'list',
+			message: 'Would you like to continue?',
+			choices: ['Yes', 'No'],
+			name: 'action'
+	    }
+	]).then(function(inquirerResponse) {
+	    if (inquirerResponse.action === 'Yes') {
+			answerBasicCards()
+	    }
+	    else startUp();
 	});
 }
 
@@ -64,21 +90,44 @@ function answerClozeCards() {
 		     		name: 'userAnswer'
 			    }
 			]).then(function(clozeInfoResponse) {
-				// console.log(count);
-				// console.log('array length', keyArray.length);
-				if (clozeInfoResponse.userAnswer === parsedData[keyArray[count]].cloze) {
+				var promptAnswer = clozeInfoResponse.userAnswer;
+				var keyedAnswer = parsedData[keyArray[count]].cloze;
+				if (promptAnswer.toLowerCase() === keyedAnswer.toLowerCase()) {
 					correct++;
 					count++;
 					console.log('Correct! You have ' + correct + ' answers correct.');
-					answerClozeCards()
+					if (count === keyArray.length) {
+						startUp()
+					}
+					else answerMoreCloze()
 				}
 				else {
 					count++;
-					console.log('Wrong! You have ' + correct + ' answers correct.');
-					answerClozeCards()
+					console.log('Wrong! You have ' + correct + ' answers correct.' +
+						'\n' + keyedAnswer + ' is the correct answer.');
+					if (count === keyArray.length) {
+						startUp()
+					}
+					else answerMoreCloze()
 				}
 			});
 		}
+	});
+}
+
+function answerMoreCloze() {
+	inquirer.prompt([
+	    { 
+			type: 'list',
+			message: 'Would you like to continue?',
+			choices: ['Yes', 'No'],
+			name: 'action'
+	    }
+	]).then(function(inquirerResponse) {
+	    if (inquirerResponse.action === 'Yes') {
+			answerClozeCards()
+	    }
+	    else startUp();
 	});
 }
 
@@ -168,6 +217,8 @@ function creatingCloze() {
 }
 
 function startUp() {
+	count = 0;
+	correct = 0;
 	inquirer.prompt([
 	    { 
 			type: 'list',
@@ -193,10 +244,11 @@ function startUp() {
 			creatingCloze()
 	    }
 	    else if (inquirerResponse.action === strExitProgram) {
-	    	console.log('stop program');
+	    	console.log('Thank you for using node flashcards!');
 	    	process.exit()
 	    }
 	});
 }
+
 //CORE PROGRAM STARTING
 startUp();
