@@ -10,7 +10,7 @@ var strAnswerBasic = 'Answer basic card questions.';
 var strAnswerCloze = 'Answer cloze card questions.';
 var strCreateBasic = 'Create a basic flashcard.';
 var strCreateCloze = 'Create a cloze flashcard.';
-// var strExitProgram = 'Exit the program'; //If time allows
+var strExitProgram = 'Exit the program';
 
 var count = 0;
 var correct = 0;
@@ -155,21 +155,19 @@ function creatingCloze() {
 				clozeLibrary = JSON.parse(data);
 				console.log('After redefined', clozeLibrary);
 				clozeLibrary[cardTitle] = ClozeCard(fullText, clozeText);
-
+				clozeLibrary[cardTitle].partial = partialText; 
 				console.log('After adding card', clozeLibrary);
 
-				// fs.writeFile('./cloze-cards.json', JSON.stringify(clozeLibrary, null, 2), (err, data) => {
-				// 	console.log('Card added to basic card library.')
-			});
-			
-			var newClozeCard = ClozeCard (fullText, clozeText);
-			console.log(newClozeCard)
+				fs.writeFile('./cloze-cards.json', JSON.stringify(clozeLibrary, null, 2), (err, data) => {
+					console.log('Card added to cloze card library.')
+				});
+			})
 		}
 		else {
-			console.log('Your cloze doesn\'t exist in the full text. Please fix.')
-			clozeInfo()
+			console.log('Your cloze doesn\'t exist in the full text. Please fix.');
+			creatingCloze()
 		}
-	});
+	})
 }
 
 function startUp() {
@@ -177,7 +175,7 @@ function startUp() {
 	    { 
 			type: 'list',
 			message: 'What would you like to do?',
-			choices: [strAnswerBasic, strAnswerCloze, strCreateBasic, strCreateCloze],
+			choices: [strAnswerBasic, strAnswerCloze, strCreateBasic, strCreateCloze, strExitProgram],
 			name: 'action'
 	    }
 	]).then(function(inquirerResponse) {
@@ -199,10 +197,10 @@ function startUp() {
 			creatingCloze()
 	    }
 
-	    // else if (inquirerResponse.action === strExitProgram) {
-	    // 	console.log('stop program')
-	    // 	//find way to actualy stop the program...exit process?
-	    // }
+	    else if (inquirerResponse.action === strExitProgram) {
+	    	console.log('stop program');
+	    	process.exit()
+	    }
 	});
 }
 //CORE PROGRAM STARTING

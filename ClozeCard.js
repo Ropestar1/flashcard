@@ -2,11 +2,10 @@ var ClozeCard = function(fullText, cloze) {
   	if (this instanceof ClozeCard) {
     	if (fullText.includes(cloze)) {
             this.fullText = fullText;
-            this.cloze = cloze;
-    		// this.partial = ;
+            this.cloze = cloze
     	}
     	else {
-    		console.log('Cloze is not present in full text.')
+    		console.log('Cloze is not present in full text.');
             ClozeCard()
     	}
 	}

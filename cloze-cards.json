@@ -1,19 +1,17 @@
 {
-	"first_president": {
-		"fullText": "George Washington is the first president of the United States of America.",
-		"cloze": "George Washington",
-		"partial": "... is the first president of the United States of America."
-	},
-
-	"stars": {
-		"fullText": "There are 50 stars in the American flag.",
-		"cloze": "50",
-		"partial": "There are ... stars in the American flag"
-	},
-
-	"stripes": {
-		"fullText": "There are 13 stripes in the American flag",
-		"cloze": "13",
-		"partial": "There are ... stripes in the American flag"
-	}
+  "first_president": {
+    "fullText": "George Washington is the first president of the United States of America.",
+    "cloze": "George Washington",
+    "partial": "... is the first president of the United States of America."
+  },
+  "stars": {
+    "fullText": "There are 50 stars in the American flag.",
+    "cloze": "50",
+    "partial": "There are ... stars in the American flag"
+  },
+  "stripes": {
+    "fullText": "There are 13 stripes in the American flag",
+    "cloze": "13",
+    "partial": "There are ... stripes in the American flag"
+  }
 }
