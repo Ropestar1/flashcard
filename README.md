@@ -1,20 +1,18 @@
-# flashcard
-Flashcard hw
+# CLI Flashcards
 
-File Library:
-	- main-flashcard.js: Main file to run the flashcard homework program.
-	- BasicCard.js: Javascript file that houses the BasicCard constructor.
-	- ClozeCard.js: Javascript file that houses the ClozeCard constructor.
-	- basic-cards.json: Library for the basic flashcards.
-	- cloze-cards.json: Library for the cloze flashcards.
+![CLI Flashcards Walkthrough](./readme-material/flashcard-walk.gif)
 
-Instructions:
-	- Use the main-flashcard.js file to run the main program.
-	- On startup, the user is provided with 5 options:
-		- Review basic cards (generated from basic-cards.json)
-		- Review cloze cards (generated from cloze-cards.json)
-		- Create a basic card (adds a basic flashcard to the basic-cards.json file for future use)
-		- Create a cloze card (adds a cloze flashcard to the cloze-cards.json file for future use)
-		- Exit the program
+Backend CLI application allowing user create flashcard questions and answers using the CLI.
 
-Written by: Roper Macaraeg
+### Technologies Used:
+JavaScript, Node.js, fs, request, inquirer, npm packages, JSON
+
+#### Walkthroughs (all within your CLI):
+1. Type in `node main-flashcard.js` to begin the application. (Note: Don't use nodemon if you have it installed)
+2. Select What you would like to do:
+  - Answer basic questions (Application asks you a question and you answer with what you think is correct.)
+  - Answer cloze card questions (Application asks you a question and you answer with what you think is correct. Fill in the blank style.)
+  - Create a basic flashcard (Adds more questions to the basic-cards.json for future use)
+  - Create a cloze flashcard (Adds more questions to the cloze-cards.json for future use)
+  - Exit the program
+
